@@ -16,7 +16,7 @@ const SuccessStories = () => {
                     </span>
 
                     <h2 className="text-4xl font-bold text-gray-900 mt-5">
-                        Real Stories from Happy Pet Families 🐾
+                        Real Stories from Happy Pet Families 
                     </h2>
 
                     <p className="text-gray-600 mt-5 leading-relaxed">

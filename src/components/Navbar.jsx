@@ -23,7 +23,7 @@ const Navbar = () => {
 
     return (
         <div className='bg-white py-3'>
-            <nav className='max-w-[90%] mx-auto flex items-center justify-between'>
+            <nav className='max-w-7xl mx-auto flex items-center justify-between'>
                 <div className='flex items-center gap-1'>
                     <MdOutlinePets className='text-3xl text-green-500' />
                     <h2 className='font-bold text-4xl text-green-500'>PawNest</h2>

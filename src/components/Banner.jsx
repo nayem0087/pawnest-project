@@ -1,14 +1,17 @@
 'use client';
 
-import Link from 'next/link';
+
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { FaLongArrowAltRight } from 'react-icons/fa';
+import { Button } from '@heroui/react';
+import { VscServerProcess } from 'react-icons/vsc';
 
 const Banner = () => {
     return (
         <section className="bg-gradient-to-br from-green-50 via-white to-emerald-100 overflow-hidden">
 
-            <div className="max-w-7xl mx-auto px-6 py-16 lg:py-24 grid lg:grid-cols-2 gap-12 items-center">
+            <div className="max-w-7xl mx-auto px-6 py-10 lg:py-14 grid lg:grid-cols-2 gap-8 items-center">
 
                 <motion.div
                     initial={{ opacity: 0, x: -40 }}
@@ -31,13 +34,20 @@ const Banner = () => {
                         Browse adorable dogs, cats, birds, and more waiting for adoption.
                     </p>
 
-                    <div className="mt-8">
-                        <Link
-                            href="/all-pets"
-                            className="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-xl font-semibold transition duration-300 shadow-lg hover:shadow-green-300"
+                    <div className="flex gap-6 mt-8">
+                        <Button
+                            className="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-ml font-semibold transition duration-300 shadow-lg flex gap-2 items-center"
                         >
-                            Adopt Now
-                        </Link>
+                            <span>Adopt Now</span>
+                            <FaLongArrowAltRight />
+                        </Button>
+                        <Button
+                            variant='outline'
+                            className="text-green-500 px-5 py-3 rounded-ml font-semibold transition duration-300 shadow-lg flex gap-2 items-center"
+                        >
+                            <span>Our Process</span>
+                            <VscServerProcess className='text-green-500 text-xl' />
+                        </Button>
                     </div>
 
                 </motion.div>

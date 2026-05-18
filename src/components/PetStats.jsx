@@ -37,7 +37,7 @@ const PetStats = () => {
     });
 
     return (
-        <section className="md:mt-20 mt-12">
+        <section className="md:mt-20 mt-16">
             <div className="max-w-3xl mx-auto text-center mb-8">
                 <h2 className="text-4xl md:text-5xl font-bold text-gray-800">
                     Our Impact in Pet Adoption
@@ -51,7 +51,7 @@ const PetStats = () => {
             </div>
             <div
                 ref={ref}
-                className="max-w-7xl mx-auto bg-green-400 rounded-[30px] overflow-hidden grid grid-cols-2 lg:grid-cols-4"
+                className="max-w-7xl md:mx-auto bg-green-400 rounded-[30px] overflow-hidden grid grid-cols-2 lg:grid-cols-4 mx-4"
             >
                 {stats.map((stat, index) => (
                     <div

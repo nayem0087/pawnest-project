@@ -1,4 +1,5 @@
 import Banner from "@/components/Banner";
+import BestServices from "@/components/BestServices";
 import HappyPetsSection from "@/components/HappyPets";
 import PetCareTips from "@/components/PetCareTips";
 import PetStats from "@/components/PetStats";
@@ -15,6 +16,7 @@ export default function Home() {
         <PetCareTips/>
         <HappyPetsSection/>
         <PetStats/>
+        <BestServices/>
     </div>
   );
 }

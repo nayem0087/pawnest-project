@@ -1,146 +1,267 @@
 'use client'
 
-import { FieldError, Input, Label, TextField, Select, ListBox, TextArea, Button } from "@heroui/react";
+import { FieldError, Input, Label, TextField, Select, ListBox, TextArea, Button, Card } from "@heroui/react";
+import React, { useContext } from 'react';
+import { AuthContext } from '@/providers/AuthProvider';
 
 
 const AddPets = () => {
-    return (
-        <div>
-            <h2>Add pets for home</h2>
 
+  const { user } = useContext(AuthContext);
 
-            <form
-            className="p-10 space-y-8"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Destination Name */}
-              <div className="md:col-span-2">
-                <TextField name="destinationName" isRequired>
-                  <Label>Destination Name</Label>
-                  <Input placeholder="Bali Paradise" className="rounded-2xl" />
-                  <FieldError />
-                </TextField>
-              </div>
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const pet = Object.fromEntries(formData.entries())
 
-              {/* Country */}
-              <TextField name="country" isRequired>
-                <Label>Country</Label>
-                <Input placeholder="Indonesia" className="rounded-2xl" />
-                <FieldError />
-              </TextField>
+    console.log(pet);
 
-              {/* Category - Updated Select Component */}
-              <div>
-                <Select
-                  name="category"
-                  isRequired
-                  className="w-full"
-                  placeholder="Select category"
-                >
-                  <Label>Category</Label>
-                  <Select.Trigger className="rounded-2xl">
-                    <Select.Value />
-                    <Select.Indicator />
-                  </Select.Trigger>
-                  <Select.Popover>
-                    <ListBox>
-                      <ListBox.Item id="Beach" textValue="Beach">
-                        Beach
-                        <ListBox.ItemIndicator />
-                      </ListBox.Item>
-                      <ListBox.Item id="Mountain" textValue="Mountain">
-                        Mountain
-                        <ListBox.ItemIndicator />
-                      </ListBox.Item>
-                      <ListBox.Item id="City" textValue="City">
-                        City
-                        <ListBox.ItemIndicator />
-                      </ListBox.Item>
-                      <ListBox.Item id="Adventure" textValue="Adventure">
-                        Adventure
-                        <ListBox.ItemIndicator />
-                      </ListBox.Item>
-                      <ListBox.Item id="Cultural" textValue="Cultural">
-                        Cultural
-                        <ListBox.ItemIndicator />
-                      </ListBox.Item>
-                      <ListBox.Item id="Luxury" textValue="Luxury">
-                        Luxury
-                        <ListBox.ItemIndicator />
-                      </ListBox.Item>
-                    </ListBox>
-                  </Select.Popover>
-                </Select>
-              </div>
+    const res = await fetch('http://localhost:5000/pet', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(pet)
+    })
+    const data = await res.json();
 
-              {/* Price */}
-              <TextField name="price" type="number" isRequired>
-                <Label>Price (USD)</Label>
-                <Input
-                  type="number"
-                  placeholder="1299"
-                  className="rounded-2xl"
-                />
-                <FieldError />
-              </TextField>
+    console.log(data);
 
-              {/* Duration */}
-              <TextField name="duration" isRequired>
-                <Label>Duration</Label>
-                <Input
-                  placeholder="7 Days / 6 Nights"
-                  className="rounded-2xl"
-                />
-                <FieldError />
-              </TextField>
+  }
 
-              {/* Departure Date */}
-              <div className="md:col-span-2">
-                <TextField name="departureDate" type="date" isRequired>
-                  <Label>Departure Date</Label>
-                  <Input type="date" className="rounded-2xl" />
-                  <FieldError />
-                </TextField>
-              </div>
+  return (
+    <div className="p-5 max-w-7xl mx-auto">
+      <Card>
+        <form
+          onSubmit={onSubmit}
+          className="p-10 space-y-8 max-w-3xl mx-auto w-full"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-              {/* Image URL - Removed preview */}
-              <div className="md:col-span-2">
-                <TextField name="imageUrl" isRequired>
-                  <Label>Image URL</Label>
-                  <Input
-                    type="url"
-                    placeholder="https://example.com/bali-paradise.jpg"
-                    className="rounded-2xl"
-                  />
-                  <FieldError />
-                </TextField>
-              </div>
+            {/* Pet Name */}
+            <TextField name="petName" isRequired>
+              <Label>Pet Name</Label>
+              <Input
+                placeholder="Enter pet name"
+                className="rounded-2xl"
+              />
+              <FieldError />
+            </TextField>
 
-              {/* Description */}
-              <div className="md:col-span-2">
-                <TextField name="description" isRequired>
-                  <Label>Description</Label>
-                  <TextArea
-                    placeholder="Describe the travel experience..."
-                    className="rounded-3xl"
-                  />
-                  <FieldError />
-                </TextField>
-              </div>
+            {/* Species */}
+            <div>
+              <Select
+                name="species"
+                isRequired
+                className="w-full"
+                placeholder="Select Species"
+              >
+                <Label>Species</Label>
+
+                <Select.Trigger className="rounded-2xl">
+                  <Select.Value />
+                  <Select.Indicator />
+                </Select.Trigger>
+
+                <Select.Popover>
+                  <ListBox>
+                    <ListBox.Item id="Dog" textValue="Dog">
+                      Dog
+                      <ListBox.ItemIndicator />
+                    </ListBox.Item>
+
+                    <ListBox.Item id="Cat" textValue="Cat">
+                      Cat
+                      <ListBox.ItemIndicator />
+                    </ListBox.Item>
+
+                    <ListBox.Item id="Bird" textValue="Bird">
+                      Bird
+                      <ListBox.ItemIndicator />
+                    </ListBox.Item>
+
+                    <ListBox.Item id="Rabbit" textValue="Rabbit">
+                      Rabbit
+                      <ListBox.ItemIndicator />
+                    </ListBox.Item>
+
+                    <ListBox.Item id="Other" textValue="Other">
+                      Other
+                      <ListBox.ItemIndicator />
+                    </ListBox.Item>
+                  </ListBox>
+                </Select.Popover>
+              </Select>
             </div>
 
-            {/* Buttons */}
+            {/* Breed */}
+            <TextField name="breed" isRequired>
+              <Label>Breed</Label>
+              <Input
+                placeholder="Enter breed name"
+                className="rounded-2xl"
+              />
+              <FieldError />
+            </TextField>
 
-            <Button
-              type="submit"
-              variant="outline"
-              className=" rounded-none w-full bg-cyan-500 text-white"
+            {/* Age */}
+            <TextField name="age" type="number" isRequired>
+              <Label>Age</Label>
+              <Input
+                type="number"
+                placeholder="Enter age"
+                className="rounded-2xl"
+              />
+              <FieldError />
+            </TextField>
+
+            {/* Gender */}
+            <div>
+              <Select
+                name="gender"
+                isRequired
+                className="w-full"
+                placeholder="Select Gender"
+              >
+                <Label>Gender</Label>
+
+                <Select.Trigger className="rounded-2xl">
+                  <Select.Value />
+                  <Select.Indicator />
+                </Select.Trigger>
+
+                <Select.Popover>
+                  <ListBox>
+                    <ListBox.Item id="Male" textValue="Male">
+                      Male
+                      <ListBox.ItemIndicator />
+                    </ListBox.Item>
+
+                    <ListBox.Item id="Female" textValue="Female">
+                      Female
+                      <ListBox.ItemIndicator />
+                    </ListBox.Item>
+                  </ListBox>
+                </Select.Popover>
+              </Select>
+            </div>
+
+            {/* Health Status */}
+            <TextField name="healthStatus" isRequired>
+              <Label>Health Status</Label>
+              <Input
+                placeholder="Enter physical condition"
+                className="rounded-2xl"
+              />
+              <FieldError />
+            </TextField>
+
+            {/* Vaccination Status */}
+            <div>
+              <Select
+                name="vaccinationStatus"
+                isRequired
+                className="w-full"
+                placeholder="Enter Vaccination Status"
+              >
+                <Label>Vaccination Status</Label>
+
+                <Select.Trigger className="rounded-2xl">
+                  <Select.Value />
+                  <Select.Indicator />
+                </Select.Trigger>
+
+                <Select.Popover>
+                  <ListBox>
+                    <ListBox.Item
+                      id="Vaccinated"
+                      textValue="Enter Vaccinated"
+                    >
+                      Vaccinated
+                      <ListBox.ItemIndicator />
+                    </ListBox.Item>
+
+                    <ListBox.Item
+                      id="Not Vaccinated"
+                      textValue="Not Vaccinated"
+                    >
+                      Not Vaccinated
+                      <ListBox.ItemIndicator />
+                    </ListBox.Item>
+                  </ListBox>
+                </Select.Popover>
+              </Select>
+            </div>
+
+            {/* Location */}
+            <TextField name="location" isRequired>
+              <Label>Location</Label>
+              <Input
+                placeholder="Enter location"
+                className="rounded-2xl"
+              />
+              <FieldError />
+            </TextField>
+
+            {/* Adoption Fee */}
+            <TextField
+              name="adoptionFee"
+              type="number"
+              isRequired
             >
-              Add Pets
-            </Button>
-          </form>
-        </div>
-    );
+              <Label>Adoption Fee</Label>
+              <Input
+                type="number"
+                placeholder="Enter price"
+                className="rounded-2xl w-full"
+              />
+              <FieldError />
+            </TextField>
+
+            {/* Image URL */}
+            <div className="md:col-span-2">
+              <TextField name="imageUrl" isRequired>
+                <Label>Image URL</Label>
+                <Input
+                  type="url"
+                  placeholder="Enter img url"
+                  className="rounded-2xl"
+                />
+                <FieldError />
+              </TextField>
+            </div>
+
+            {/* Description */}
+            <div className="md:col-span-2">
+              <TextField name="description" isRequired>
+                <Label>Description</Label>
+                <TextArea
+                  placeholder="Say something about pet"
+                  className="rounded-3xl"
+                />
+                <FieldError />
+              </TextField>
+            </div>
+
+            {/* Owner Email */}
+            <div className="md:col-span-2">
+              <Label htmlFor="input-type-email">Email</Label> 
+              <br />
+              <Input className={'w-full mt-1'} id="input-type-email" placeholder="Enter your email" type="email" />
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <Button
+            type="submit"
+            className="w-full rounded-2xl bg-green-500 text-white hover:bg-green-600"
+          >
+            Add Pet
+          </Button>
+        </form>
+      </Card>
+    </div>
+  );
 };
 
 export default AddPets;

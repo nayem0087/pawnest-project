@@ -8,8 +8,9 @@ import { ArrowRightFromSquare } from "@gravity-ui/icons";
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    // আপনার Auth সেশন বা স্টেট এখানে বসাবেন (true = logged in, false = logged out)
-    const [isLoggedIn, setIsLoggedIn] = useState(true); 
+    // 💡 আপনার Auth সেশন বা স্টেট এখানে কানেক্ট করবেন। 
+    // পরীক্ষা করার জন্য true কে false বানিয়ে দেখতে পারেন লগআউট ভিউ কেমন দেখায়।
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState({
         name: "Jane Doe",
         email: "jane@example.com",
@@ -24,8 +25,8 @@ export default function Navbar() {
     return (
         <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
             <header className="flex h-16 items-center justify-between px-6 max-w-7xl mx-auto">
-                
-                {/* Logo & Toggle Button */}
+
+                {/* ১. Logo & Mobile Menu Button */}
                 <div className="flex items-center gap-4">
                     <button
                         className="md:hidden"
@@ -47,7 +48,7 @@ export default function Navbar() {
                     </Link>
                 </div>
 
-                {/* Desktop Navigation Links */}
+                {/* ২. Desktop Navigation Links (কন্ডিশনাল) */}
                 <ul className="hidden items-center gap-6 md:flex font-medium">
                     <li>
                         <Link href="/" color="foreground">Home</Link>
@@ -55,12 +56,23 @@ export default function Navbar() {
                     <li>
                         <Link href="/all-pets" color="foreground">All Pets</Link>
                     </li>
-                   
+                    {/* ইউজার লগইন থাকলে এই প্রাইভেট লিংকগুলো ডেস্কটপে দেখাবে */}
+                    {isLoggedIn && (
+                        <>
+                            <li>
+                                <Link href="/dashboard/my-request" color="foreground">My Requests</Link>
+                            </li>
+                            <li>
+                                <Link href="/dashboard/add-pet" color="foreground">Add Pet</Link>
+                            </li>
+                        </>
+                    )}
                 </ul>
 
-                {/* Authentication Right Side */}
+                {/* ৩. Right Side (Login/Get Started VS Profile Dropdown) */}
                 <div className="flex items-center gap-4">
                     {isLoggedIn ? (
+                        /* ইউজার লগইন থাকলে প্রোফাইল ড্রপডাউন দেখাবে */
                         <Dropdown placement="bottom-end">
                             <Dropdown.Trigger className="cursor-pointer rounded-full">
                                 <Avatar size="md" src={user?.image} name={user?.name?.charAt(0)} />
@@ -77,7 +89,7 @@ export default function Navbar() {
                                 </div>
                                 <Dropdown.Menu aria-label="User Actions">
                                     <Dropdown.Item key="dashboard" textValue="Dashboard">
-                                     <Link href="/dashboard/my-request">Dashboard</Link>
+                                        <Link href="/dashboard/my-request" className="w-full text-foreground block">Dashboard</Link>
                                     </Dropdown.Item>
                                     <Dropdown.Item key="logout" textValue="Logout" variant="danger" onClick={handleLogout}>
                                         <div className="flex w-full items-center justify-between gap-2 text-danger">
@@ -89,14 +101,25 @@ export default function Navbar() {
                             </Dropdown.Popover>
                         </Dropdown>
                     ) : (
-                        <Button as={Link} href="/login" color="success" variant="flat" className="font-semibold">
-                            Login
-                        </Button>
+                        /* 🌟 ইউজার লগইন না থাকলে এই বাটনগুলো দেখাবে */
+                        <div className="flex items-center gap-3">
+                            <Link href="/login" className="text-sm font-semibold text-foreground hover:opacity-80">
+                                Login
+                            </Link>
+                            <Link href="/sign-up">
+                                <Button
+                                    color="success"
+                                    className="font-semibold text-white bg-green-500 hover:bg-green-600 rounded-xl"
+                                >
+                                    Get Started
+                                </Button>
+                            </Link>
+                        </div>
                     )}
                 </div>
             </header>
 
-            {/* Mobile Navigation Menu */}
+            {/* ৪. Mobile Navigation Menu (রেসপনসিভ ভিউ) */}
             {isMenuOpen && (
                 <div className="border-t border-separator md:hidden bg-background">
                     <ul className="flex flex-col gap-2 p-4 font-medium">
@@ -106,13 +129,14 @@ export default function Navbar() {
                         <li>
                             <Link href="/all-pets" className="block py-2 w-full" color="foreground">All Pets</Link>
                         </li>
+                        {/* ইউজার লগইন থাকলে মোবাইলেও প্রাইভেট লিংকগুলো যুক্ত হবে */}
                         {isLoggedIn && (
                             <>
                                 <li>
-                                    <Link href="/my-request" className="block py-2 w-full" color="foreground">My Requests</Link>
+                                    <Link href="/dashboard/my-request" className="block py-2 w-full" color="foreground">My Requests</Link>
                                 </li>
                                 <li>
-                                    <Link href="/add-pet" className="block py-2 w-full" color="foreground">Add Pet</Link>
+                                    <Link href="/dashboard/add-pet" className="block py-2 w-full" color="foreground">Add Pet</Link>
                                 </li>
                             </>
                         )}

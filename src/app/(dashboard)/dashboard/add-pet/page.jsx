@@ -5,7 +5,7 @@ import React, { useContext } from 'react';
 import { AuthContext } from '@/providers/AuthProvider';
 
 
-const AddPets = () => {
+const AddPet = () => {
 
   const { user } = useContext(AuthContext);
 
@@ -31,7 +31,7 @@ const AddPets = () => {
 
   return (
     <div className="p-5 max-w-7xl mx-auto">
-      <Card>
+      <Card className="bg-green-100">
         <form
           onSubmit={onSubmit}
           className="p-10 space-y-8 max-w-3xl mx-auto w-full"
@@ -264,4 +264,4 @@ const AddPets = () => {
   );
 };
 
-export default AddPets;
+export default AddPet;

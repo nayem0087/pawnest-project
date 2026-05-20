@@ -7,6 +7,9 @@ import {
     Syringe,
     Venus
 } from 'lucide-react';
+import { FaLongArrowAltLeft } from 'react-icons/fa';
+import Link from 'next/link';
+import { Button } from '@heroui/react';
 
 const PetDetailsPage = async ({ params }) => {
 
@@ -18,148 +21,257 @@ const PetDetailsPage = async ({ params }) => {
 
     const pet = await res.json();
 
+    const user = {
+        name: 'Nayem Ahmed',
+        email: 'nayem@gmail.com'
+    };
+
     return (
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-10">
 
-            <div className="max-w-5xl mx-auto bg-white border rounded-2xl sm:rounded-3xl shadow-sm overflow-hidden">
+            <Link href={'/all-pets'}>
+                <p className='max-w-7xl flex gap-2 items-center pb-5 font-semibold text-gray-700 hover:text-green-600 transition'>
+                    <FaLongArrowAltLeft />
+                    <span>Back to all pets</span>
+                </p>
+            </Link>
 
-                <div className="relative w-full h-[250px] sm:h-[350px] md:h-[420px]">
-                    <Image
-                        src={pet.imageUrl}
-                        alt={pet.petName}
-                        fill
-                        className="object-cover"
-                    />
-                </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-                <div className="p-4 sm:p-6 md:p-8">
+                <div className="lg:col-span-2 bg-white border rounded-2xl sm:rounded-3xl shadow-sm overflow-hidden">
 
-                    <div className="flex flex-wrap gap-2 sm:gap-3 mb-5">
+                    <div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px]">
 
-                        <span className="bg-green-100 text-green-700 px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-medium">
-                            {pet.species}
-                        </span>
-
-                        <span className="bg-blue-100 text-blue-700 px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-medium">
-                            {pet.breed}
-                        </span>
-
-                        <span className="bg-orange-100 text-orange-700 px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-medium">
-                            Available
-                        </span>
-
+                        <Image
+                            src={pet.imageUrl}
+                            alt={pet.petName}
+                            fill
+                            className="object-cover"
+                        />
                     </div>
 
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
-                        {pet.petName}
-                    </h1>
+                    <div className="p-4 sm:p-6 md:p-8">
 
-                    <p className="text-sm sm:text-base text-gray-600 leading-6 sm:leading-7 mb-6">
-                        {pet.description}
-                    </p>
+                        <div className="flex flex-wrap gap-2 sm:gap-3 mb-5">
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
+                            <span className="bg-green-100 text-green-700 px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-medium">
+                                {pet.species}
+                            </span>
 
-                        <div className="border rounded-2xl p-4 sm:p-5">
+                            <span className="bg-blue-100 text-blue-700 px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-medium">
+                                {pet.breed}
+                            </span>
 
-                            <div className="flex items-center gap-2 mb-2">
-                                <MapPin className="text-green-500" size={20} />
+                            <span className="bg-orange-100 text-orange-700 px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-medium">
+                                Available
+                            </span>
 
-                                <h4 className="font-semibold text-sm sm:text-base">
-                                    Location
-                                </h4>
+                        </div>
+
+                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
+                            {pet.petName}
+                        </h1>
+
+                        <p className="text-sm sm:text-base text-gray-600 leading-6 sm:leading-7 mb-7">
+                            {pet.description}
+                        </p>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
+
+                            <div className="border rounded-2xl p-4 sm:p-5">
+
+                                <div className="flex items-center gap-2 mb-2">
+                                    <MapPin className="text-green-500" size={20} />
+
+                                    <h4 className="font-semibold text-sm sm:text-base">
+                                        Location
+                                    </h4>
+                                </div>
+
+                                <p className="text-gray-600 text-sm sm:text-base">
+                                    {pet.location}
+                                </p>
+
                             </div>
 
-                            <p className="text-gray-600 text-sm sm:text-base">
-                                {pet.location}
-                            </p>
+                            <div className="border rounded-2xl p-4 sm:p-5">
 
-                        </div>
+                                <div className="flex items-center gap-2 mb-2">
 
-                        <div className="border rounded-2xl p-4 sm:p-5">
+                                    {
+                                        pet.gender === 'Male'
+                                            ? <Mars className="text-blue-500" size={20} />
+                                            : <Venus className="text-pink-500" size={20} />
+                                    }
 
-                            <div className="flex items-center gap-2 mb-2">
+                                    <h4 className="font-semibold text-sm sm:text-base">
+                                        Gender
+                                    </h4>
 
-                                {
-                                    pet.gender === 'Male'
-                                        ? <Mars className="text-blue-500" size={20} />
-                                        : <Venus className="text-pink-500" size={20} />
-                                }
+                                </div>
 
-                                <h4 className="font-semibold text-sm sm:text-base">
-                                    Gender
-                                </h4>
+                                <p className="text-gray-600 text-sm sm:text-base">
+                                    {pet.gender}
+                                </p>
 
                             </div>
 
-                            <p className="text-gray-600 text-sm sm:text-base">
-                                {pet.gender}
-                            </p>
+                            <div className="border rounded-2xl p-4 sm:p-5">
 
-                        </div>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <CalendarDays className="text-orange-500" size={20} />
 
-                        <div className="border rounded-2xl p-4 sm:p-5">
+                                    <h4 className="font-semibold text-sm sm:text-base">
+                                        Age
+                                    </h4>
+                                </div>
 
-                            <div className="flex items-center gap-2 mb-2">
-                                <CalendarDays className="text-orange-500" size={20} />
+                                <p className="text-gray-600 text-sm sm:text-base">
+                                    {pet.age} Years Old
+                                </p>
 
-                                <h4 className="font-semibold text-sm sm:text-base">
-                                    Age
-                                </h4>
                             </div>
 
-                            <p className="text-gray-600 text-sm sm:text-base">
-                                {pet.age} Years Old
-                            </p>
+                            <div className="border rounded-2xl p-4 sm:p-5">
 
-                        </div>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <ShieldCheck className="text-emerald-500" size={20} />
 
-                        <div className="border rounded-2xl p-4 sm:p-5">
+                                    <h4 className="font-semibold text-sm sm:text-base">
+                                        Health Status
+                                    </h4>
+                                </div>
 
-                            <div className="flex items-center gap-2 mb-2">
-                                <ShieldCheck className="text-emerald-500" size={20} />
+                                <p className="text-gray-600 text-sm sm:text-base">
+                                    {pet.healthStatus}
+                                </p>
 
-                                <h4 className="font-semibold text-sm sm:text-base">
-                                    Health Status
-                                </h4>
                             </div>
 
-                            <p className="text-gray-600 text-sm sm:text-base">
-                                {pet.healthStatus}
-                            </p>
+                            <div className="border rounded-2xl p-4 sm:p-5">
 
-                        </div>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <Syringe className="text-purple-500" size={20} />
 
-                        <div className="border rounded-2xl p-4 sm:p-5">
+                                    <h4 className="font-semibold text-sm sm:text-base">
+                                        Vaccination
+                                    </h4>
+                                </div>
 
-                            <div className="flex items-center gap-2 mb-2">
-                                <Syringe className="text-purple-500" size={20} />
+                                <p className="text-gray-600 text-sm sm:text-base">
+                                    {pet.vaccinationStatus}
+                                </p>
 
-                                <h4 className="font-semibold text-sm sm:text-base">
-                                    Vaccination
-                                </h4>
                             </div>
 
-                            <p className="text-gray-600 text-sm sm:text-base">
-                                {pet.vaccinationStatus}
-                            </p>
+                            <div className="border rounded-2xl p-4 sm:p-5 bg-green-50">
+
+                                <h4 className="font-semibold mb-2 text-sm sm:text-base">
+                                    Adoption Fee
+                                </h4>
+
+                                <p className="text-2xl sm:text-3xl font-bold text-green-600">
+                                    $ {pet.adoptionFee}
+                                </p>
+
+                            </div>
 
                         </div>
-
-                        <div className="border rounded-2xl p-4 sm:p-5 bg-green-50">
-
-                            <h4 className="font-semibold mb-2 text-sm sm:text-base">
-                                Adoption Fee
-                            </h4>
-
-                            <p className="text-2xl sm:text-3xl font-bold text-green-600">
-                                $ {pet.adoptionFee}
-                            </p>
-
-                        </div>
-
                     </div>
                 </div>
+
+                <div className="bg-white border rounded-2xl sm:rounded-3xl shadow-sm p-5 sm:p-6 h-fit sticky top-24">
+
+                    <div className="mb-6">
+                        <h2 className="text-2xl font-bold mb-2">
+                            Adopt {pet.petName}
+                        </h2>
+
+                        <p className="text-gray-500 text-sm leading-6">
+                            Fill out the form below to submit your adoption request.
+                        </p>
+                    </div>
+
+                    <form className="space-y-5">
+
+                        <div>
+                            <label className="block mb-2 text-sm font-medium text-gray-700">
+                                Pet Name
+                            </label>
+
+                            <input
+                                type="text"
+                                value={pet.petName}
+                                readOnly
+                                className="w-full border rounded-2xl px-4 py-3 bg-gray-100 outline-none"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block mb-2 text-sm font-medium text-gray-700">
+                                User Name
+                            </label>
+
+                            <input
+                                type="text"
+                                value={user.name}
+                                readOnly
+                                className="w-full border rounded-2xl px-4 py-3 bg-gray-100 outline-none"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block mb-2 text-sm font-medium text-gray-700">
+                                User Email
+                            </label>
+
+                            <input
+                                type="email"
+                                value={user.email}
+                                readOnly
+                                className="w-full border rounded-2xl px-4 py-3 bg-gray-100 outline-none"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block mb-2 text-sm font-medium text-gray-700">
+                                Pickup Date
+                            </label>
+
+                            <input
+                                type="date"
+                                className="w-full border rounded-2xl px-4 py-3 outline-none focus:border-green-500"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block mb-2 text-sm font-medium text-gray-700">
+                                Message
+                            </label>
+
+                            <textarea
+                                rows={5}
+                                placeholder="Why do you want to adopt this pet?"
+                                className="w-full border rounded-2xl px-4 py-3 outline-none resize-none focus:border-green-500"
+                            />
+                        </div>
+
+                        <input
+                            type="hidden"
+                            value="pending"
+                            name="status"
+                        />
+
+                        <Button
+                            className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-6 rounded-2xl text-base"
+                        >
+                            Adopt Now
+                        </Button>
+
+                    </form>
+
+                </div>
+
             </div>
         </div>
     );

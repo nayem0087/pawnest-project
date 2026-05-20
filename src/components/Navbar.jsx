@@ -1,254 +1,124 @@
-// "use client";
-
-// import { useState, useEffect } from "react";
-
-// import { BookOpen, Menu, X, User, LogOut, LayoutDashboard } from "lucide-react";
-// import Link from "next/link";
-// import { Button } from "@heroui/react";
-// import Image from "next/image";
-// // import { signOut, useSession } from "@/lib/auth-client";
-// import { useRouter } from "next/navigation";
-
-// export function MainNavbar() {
-//   const [isMenuOpen, setIsMenuOpen] = useState(false);
-//   const [scrolled, setScrolled] = useState(false);
-//   const router = useRouter();
-//   // const { data: session, isPending } = useSession();
-//   console.log(session);
-
-
-  // useEffect(() => {
-  //   const handleScroll = () => setScrolled(window.scrollY > 10);
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, []);
-
-  // const handleLogOut = async () => {
-  //   await signOut();
-  //   router.push("/")
-
-  // }
-
-  // return (
-  //   <nav className={`sticky top-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-white/70 backdrop-blur-md shadow-sm py-2" : "bg-slate-50 py-4"
-  //     }`}>
-  //     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  //       <div className="flex justify-between h-16 items-center">
-  //         <div className="flex items-center">
-  //           <Link href="/" className="flex items-center gap-2 group">
-  //             <div className="p-2 bg-blue-600 rounded-xl group-hover:rotate-12 transition-transform">
-  //               <BookOpen className="w-6 h-6 text-white" />
-  //             </div>
-  //             <span className="font-extrabold text-2xl tracking-tight text-slate-900">
-  //               Mentora
-  //             </span>
-  //           </Link>
-  //         </div>
-
-  //         <div className="hidden md:flex gap-8 items-center">
-  //           <Link href="/" className="font-medium text-slate-700 hover:text-blue-600 transition-colors">Home</Link>
-  //           <Link href="/courses" className="font-medium text-slate-700 hover:text-blue-600 transition-colors">Courses</Link>
-  //           <Link href="/add-course" className="font-medium text-slate-700 hover:text-blue-600 transition-colors">Add Course</Link>
-  //           <Link href="/dashboard" className="font-medium text-slate-700 hover:text-blue-600 transition-colors">Dashboard</Link>
-  //         </div>
-
-  //         {/* <div className="hidden md:flex items-center gap-4">
-
-  //           {
-  //             !isPending && !session ? <>
-  //               <Link href="/login" className="font-medium text-slate-700 hover:text-blue-600 transition-colors">Login</Link>
-  //               <Link href="/register">
-
-  //                 <Button color="primary" className="font-bold rounded-full px-8 shadow-lg shadow-blue-600/20">
-  //                   Join Free
-  //                 </Button>
-  //               </Link>
-  //             </> :
-  //               <div className="relative group">
-  //                 <button className="flex items-center gap-3 p-1 rounded-full hover:bg-muted transition-colors border border-transparent hover:border-border">
-  //                   <Image
-  //                     width={40}
-  //                     height={40}
-  //                     src={session?.user?.image || "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?q=80&w=400"}
-  //                     alt="avatar"
-  //                     className="w-10 h-10 rounded-full object-cover ring-2 ring-blue-600/10"
-  //                   />
-  //                   <div className="text-left hidden lg:block">
-  //                     <p className="text-sm font-bold truncate max-w-25">{session?.user?.name}</p>
-  //                     <p className="text-[10px] text-slate-500">Student</p>
-  //                   </div>
-  //                 </button>
-  //                 <div className="absolute right-0 top-12 w-56 bg-white border border-slate-200 rounded-2xl shadow-2xl hidden group-hover:flex flex-col py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-  //                   <div className="px-4 py-3 border-b border-slate-100">
-  //                     <p className="font-bold text-sm">Welcome back!</p>
-  //                     <p className="text-xs truncate text-slate-500">{session?.user?.email}</p>
-  //                   </div>
-  //                   <Link href="/dashboard" className="px-4 py-2 text-sm hover:bg-muted flex items-center gap-3 transition-colors">
-  //                     <LayoutDashboard className="w-4 h-4" /> Dashboard
-  //                   </Link>
-  //                   <Link href="/settings" className="px-4 py-2 text-sm hover:bg-muted flex items-center gap-3 transition-colors">
-  //                     <User className="w-4 h-4" /> Settings
-  //                   </Link>
-  //                   <button
-  //                     onClick={handleLogOut}
-  //                     className="px-4 py-2 text-sm text-red-500 hover:bg-red-50 flex items-center gap-3 transition-colors text-left">
-  //                     <LogOut className="w-4 h-4" /> Log Out
-  //                   </button>
-  //                 </div>
-  //               </div>
-  //           }
-
-
-
-  //         </div> */}
-
-  //         <div className="md:hidden flex items-center">
-  //           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 rounded-lg hover:bg-muted transition-colors">
-  //             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-  //           </button>
-  //         </div>
-  //       </div>
-  //     </div>
-
-  //     {/* Mobile menu */}
-  //     {/* {isMenuOpen && (
-  //       <div className="md:hidden px-4 pt-2 pb-6 space-y-2 bg-white border-b border-slate-200 animate-in slide-in-from-top duration-300">
-  //         <Link href="/" className="block px-4 py-3 text-base font-medium text-slate-900 hover:bg-slate-50 rounded-xl">Home</Link>
-  //         <Link href="/courses" className="block px-4 py-3 text-base font-medium text-slate-900 hover:bg-slate-50 rounded-xl">Courses</Link>
-  //         <Link href="/add-course" className="block px-4 py-3 text-base font-medium text-slate-900 hover:bg-slate-50 rounded-xl">Add Course</Link>
-  //         <Link href="/dashboard" className="block px-4 py-3 text-base font-medium text-slate-900 hover:bg-slate-50 rounded-xl">Dashboard</Link>
-  //         <div className="pt-4 border-t border-border mt-4">
-
-  //           <div className="grid grid-cols-2 gap-4">
-  //             <Link href="/login">
-  //               <Button href="/login" variant="bordered" className="rounded-xl">Login</Button>
-  //             </Link>
-  //             <Link href="/register">
-  //               <Button href="/register" color="primary" className="rounded-xl">Join Free</Button>
-  //             </Link>
-  //           </div>
-
-  //           <div className="flex flex-col gap-2">
-  //             <p className="px-4 text-xs font-bold text-muted-foreground uppercase tracking-wider">Account</p>
-  //             <button
-  //               onClick={handleLogOut}
-  //               className="block w-full text-left px-4 py-3 text-base font-medium text-red-500 hover:bg-red-50 rounded-xl">Log Out</button>
-  //           </div>
-
-  //         </div>
-  //       </div>
-  //     )} */}
-  //   </nav>
-  // );
-// }
-
-
-
-
-
-
-
-
-
-
-
 'use client';
 
-// import { authClient } from '@/lib/auth-client';
-import { Avatar, Button } from '@heroui/react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { IoIosHome } from 'react-icons/io';
-import { MdOutlinePets } from 'react-icons/md';
-import { RiSearchLine } from 'react-icons/ri';
+import { useState } from "react";
+import { Link, Button, Avatar, Dropdown } from "@heroui/react";
+import { MdOutlinePets } from "react-icons/md";
+import { ArrowRightFromSquare } from "@gravity-ui/icons";
 
-const Navbar = () => {
+export default function Navbar() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    // const {
-    //     data: session,
-    // } = authClient.()
+    // আপনার Auth সেশন বা স্টেট এখানে বসাবেন (true = logged in, false = logged out)
+    const [isLoggedIn, setIsLoggedIn] = useState(true); 
+    const [user, setUser] = useState({
+        name: "Jane Doe",
+        email: "jane@example.com",
+        image: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg"
+    });
 
-    // const user = session?.user;
-    // // console.log(user);
-
-    // const handleSignOut = async () => {
-    //     await authClient.signOut();
-    // }
+    const handleLogout = () => {
+        // এখানে আপনার সাইন আউট লজিক লিখবেন
+        setIsLoggedIn(false);
+    };
 
     return (
-        <div className='bg-white py-3'>
-            <nav className='max-w-7xl mx-auto flex items-center justify-between'>
-                <div className='flex items-center gap-1'>
-                    <MdOutlinePets className='text-3xl text-green-500' />
-                    <h2 className='font-bold text-4xl text-green-500'>PawNest</h2>
+        <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
+            <header className="flex h-16 items-center justify-between px-6 max-w-7xl mx-auto">
+                
+                {/* Logo & Toggle Button */}
+                <div className="flex items-center gap-4">
+                    <button
+                        className="md:hidden"
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        aria-label="Toggle menu"
+                    >
+                        <span className="sr-only">Menu</span>
+                        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            {isMenuOpen ? (
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            ) : (
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                            )}
+                        </svg>
+                    </button>
+                    <Link href="/" className="flex items-center gap-1 text-current">
+                        <MdOutlinePets className="text-3xl text-green-500" />
+                        <h2 className="font-bold text-4xl text-green-500">PawNest</h2>
+                    </Link>
                 </div>
-                <ul className='flex gap-6'>
-                    <li>
-                        <Link href="/"
-                            className='flex items-center gap-1'>
-                            <IoIosHome />
-                            <span>Home</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/add-pets"
-                            className='flex items-center gap-1'>
-                            <IoIosHome />
-                            <span>Add Pets</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/all-pets"
-                            className='flex items-center gap-1'>
-                            <RiSearchLine />
-                            <span>All-Pets</span>
-                        </Link>
-                    </li>
-                </ul>
-                <ul className='flex items-center gap-6'>
-                    <Link href="/login">
-                        <li>Login</li>
-                    </Link>
-                    <Link href="/sign-up" 
-                    className='bg-green-500 hover:bg-green-600 text-white rounded-xl'>
-                        <Button variant=''>Get Started</Button>
-                    </Link>
-                </ul>
-                {/* <ul className='flex items-center gap-6'>
-                    <li>
-                        <Link href="/profile">Profile</Link>
-                    </li>
-                    {user ? <>
 
-                        <li>
-                            <Avatar>
-                                <Avatar.Image
-                                    referrerPolicy='no-referrer'
-                                    alt="John Doe" src={user?.image} />
-                                <Avatar.Fallback>{user.name.charAt(0)}</Avatar.Fallback>
-                            </Avatar>
-                        </li>
-                        <li>
-                            <Button
-                                size='sm'
-                                onClick={handleSignOut}
-                                variant='danger' className={'rounded-[5px]'}>
-                                Logout
-                            </Button>
-                        </li>
+                {/* Desktop Navigation Links */}
+                <ul className="hidden items-center gap-6 md:flex font-medium">
+                    <li>
+                        <Link href="/" color="foreground">Home</Link>
+                    </li>
+                    <li>
+                        <Link href="/all-pets" color="foreground">All Pets</Link>
+                    </li>
+                   
+                </ul>
 
-                    </> : <>
+                {/* Authentication Right Side */}
+                <div className="flex items-center gap-4">
+                    {isLoggedIn ? (
+                        <Dropdown placement="bottom-end">
+                            <Dropdown.Trigger className="cursor-pointer rounded-full">
+                                <Avatar size="md" src={user?.image} name={user?.name?.charAt(0)} />
+                            </Dropdown.Trigger>
+                            <Dropdown.Popover>
+                                <div className="px-3 pt-3 pb-1">
+                                    <div className="flex items-center gap-2">
+                                        <Avatar size="sm" src={user?.image} name={user?.name?.charAt(0)} />
+                                        <div className="flex flex-col">
+                                            <p className="text-sm leading-5 font-medium">{user?.name}</p>
+                                            <p className="text-xs leading-none text-neutral-500">{user?.email}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <Dropdown.Menu aria-label="User Actions">
+                                    <Dropdown.Item key="dashboard" textValue="Dashboard">
+                                     <Link href="/dashboard/my-request">Dashboard</Link>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item key="logout" textValue="Logout" variant="danger" onClick={handleLogout}>
+                                        <div className="flex w-full items-center justify-between gap-2 text-danger">
+                                            <span>Log Out</span>
+                                            <ArrowRightFromSquare className="size-3.5" />
+                                        </div>
+                                    </Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown.Popover>
+                        </Dropdown>
+                    ) : (
+                        <Button as={Link} href="/login" color="success" variant="flat" className="font-semibold">
+                            Login
+                        </Button>
+                    )}
+                </div>
+            </header>
+
+            {/* Mobile Navigation Menu */}
+            {isMenuOpen && (
+                <div className="border-t border-separator md:hidden bg-background">
+                    <ul className="flex flex-col gap-2 p-4 font-medium">
                         <li>
-                            <Link href="/login">Login</Link>
+                            <Link href="/" className="block py-2 w-full" color="foreground">Home</Link>
                         </li>
                         <li>
-                            <Link href="/signup">Sign Up</Link>
+                            <Link href="/all-pets" className="block py-2 w-full" color="foreground">All Pets</Link>
                         </li>
-                    </>}
-                </ul> */}
-            </nav>
-        </div>
+                        {isLoggedIn && (
+                            <>
+                                <li>
+                                    <Link href="/my-request" className="block py-2 w-full" color="foreground">My Requests</Link>
+                                </li>
+                                <li>
+                                    <Link href="/add-pet" className="block py-2 w-full" color="foreground">Add Pet</Link>
+                                </li>
+                            </>
+                        )}
+                    </ul>
+                </div>
+            )}
+        </nav>
     );
-};
-
-export default Navbar;
+}

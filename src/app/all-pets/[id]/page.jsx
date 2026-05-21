@@ -21,10 +21,21 @@ const PetDetailsPage = async ({ params }) => {
 
     const pet = await res.json();
 
+    console.log('pet', pet);
+
     const user = {
         name: 'Nayem Ahmed',
         email: 'nayem@gmail.com'
     };
+
+    if (!pet || pet === null) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[50vh] gap-2 py-10">
+                <h2 className="text-2xl font-bold text-slate-700">Pet Not Found!</h2>
+                <p className="text-sm text-slate-400">The pet details could not be loaded from the server.</p>
+            </div>
+        );
+    }
 
     return (
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-10">
@@ -43,8 +54,8 @@ const PetDetailsPage = async ({ params }) => {
                     <div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px]">
 
                         <Image
-                            src={pet.imageUrl}
-                            alt={pet.petName}
+                            src={pet?.imageUrl || "/placeholder.png"} // pet বা imageUrl না থাকলে একটি ডিফল্ট ইমেজ দেখাবে
+                            alt={pet?.petName || "Pet Image"}
                             fill
                             className="object-cover"
                         />

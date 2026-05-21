@@ -13,10 +13,10 @@ export default function Navbar() {
         data: session,
     } = authClient.useSession()
 
-    console.log(session, 'session');
+    // console.log(session, 'session');
 
     const user = session?.user
-    console.log(user, 'user');
+    // console.log(user, 'user');
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 

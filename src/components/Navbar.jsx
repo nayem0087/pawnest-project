@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { Link, Button, Avatar, Dropdown } from "@heroui/react";
+import { Link, Button, Avatar, Dropdown, DropdownTrigger, DropdownMenu } from "@heroui/react";
 import { MdOutlinePets } from "react-icons/md";
 import { ArrowRightFromSquare } from "@gravity-ui/icons";
 import { authClient } from "@/lib/auth-client";
@@ -18,30 +18,20 @@ export default function Navbar() {
     const user = session?.user
     console.log(user, 'user');
 
-
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-
-    // const [isLoggedIn, setIsLoggedIn] = useState(false);
-    // const [user, setUser] = useState({
-    //     name: "Jane Doe",
-    //     email: "jane@example.com",
-    //     image: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg"
-    // });
-
-    // const handleLogout = () => {
-    //     setIsLoggedIn(false);
-    // };
+    const handleSignOut = async () => {
+        await authClient.signOut();
+    }
 
     return (
         <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
             <header className="flex h-16 items-center justify-between px-6 max-w-7xl mx-auto">
 
-                {/* ১. Logo & Mobile Menu Button */}
                 <div className="flex items-center gap-4">
                     <button
                         className="md:hidden text-black"
-                        onClick={() => setIsMenuOpen(!isMenuOpen)} // ক্লিক করলে স্টেট টগল হবে
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
                         aria-label="Toggle menu"
                     >
                         {isMenuOpen ? (
@@ -77,12 +67,23 @@ export default function Navbar() {
                             <h5 className="flex items-center gap-1">{user?.name} <FaArrowDownLong /></h5>
                             <Dropdown placement="bottom-end">
                                 <Dropdown.Trigger className="cursor-pointer rounded-full">
-                                    <Avatar size="md" src={user?.image} name={user?.name?.charAt(0)} />
+                                    {/* <Avatar size="md" src={user?.image} name={user?.name?.charAt(0)} /> */}
+                                    <Avatar>
+                                        <Avatar.Image src={user?.image} />
+                                        <Avatar.Fallback className="font-bold text-xl uppercase bg-slate-200 text-slate-800 flex items-center justify-center w-full h-full">
+                                            {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
+                                        </Avatar.Fallback>
+                                    </Avatar>
                                 </Dropdown.Trigger>
                                 <Dropdown.Popover>
                                     <div className="px-3 pt-3 pb-1">
                                         <div className="flex items-center gap-2">
-                                            <Avatar size="sm" src={user?.image} name={user?.name?.charAt(0)} />
+                                            <Avatar>
+                                                <Avatar.Image src={user?.image} />
+                                                <Avatar.Fallback className="font-bold text-xl uppercase bg-slate-200 text-slate-800 flex items-center justify-center w-full h-full">
+                                                    {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
+                                                </Avatar.Fallback>
+                                            </Avatar>
                                             <div className="flex flex-col">
                                                 <p className="text-sm leading-5 font-medium">{user?.name}</p>
                                                 <p className="text-xs leading-none text-neutral-500">{user?.email}</p>
@@ -93,7 +94,7 @@ export default function Navbar() {
                                         <Dropdown.Item key="dashboard" textValue="Dashboard">
                                             <Link href="/dashboard/my-request" className="w-full text-foreground block">Dashboard</Link>
                                         </Dropdown.Item>
-                                        <Dropdown.Item key="logout" textValue="Logout" variant="danger">
+                                        <Dropdown.Item onClick={handleSignOut} key="logout" textValue="Logout" variant="danger">
                                             <div className="flex w-full items-center justify-between gap-2 text-danger">
                                                 <span>Log Out</span>
                                                 <ArrowRightFromSquare className="size-3.5" />
@@ -133,12 +134,12 @@ export default function Navbar() {
                     <li>
                         <Link href="/all-pets" className="block py-2 w-full" color="foreground">All Pets</Link>
                     </li>
-                        <li>
-                            <Link href="/dashboard/my-request" className="block py-2 w-full" color="foreground">My Requests</Link>
-                        </li>
-                        <li>
-                            <Link href="/dashboard/add-pet" className="block py-2 w-full" color="foreground">Add Pet</Link>
-                        </li>
+                    <li>
+                        <Link href="/dashboard/my-request" className="block py-2 w-full" color="foreground">My Requests</Link>
+                    </li>
+                    <li>
+                        <Link href="/dashboard/add-pet" className="block py-2 w-full" color="foreground">Add Pet</Link>
+                    </li>
                 </ul>
             </div>
         </nav>

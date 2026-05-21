@@ -46,7 +46,7 @@ const AllPetsCard = ({ pet }) => {
          
                 <p className="border-2 border-gray-400"></p>
                 <div className="flex justify-between px-8 py-4">
-                    <Link href={`/all-pets/${_id}`}>
+                    <Link href={`/all-pets/${pet._id}`}>
                         <Button variant="secondary" className={'text-green-500'}>View Details</Button>
                     </Link>
                     <Button variant="outline" className={'bg-green-500 text-white'}>Adoption Now</Button>

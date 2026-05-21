@@ -14,9 +14,11 @@ import { Button } from '@heroui/react';
 const PetDetailsPage = async ({ params }) => {
 
     const { id } = await params;
+    console.log('id', id);
 
     const res = await fetch(`http://localhost:5000/pet/${id}`, {
-        cache: 'no-store'
+        cache: 'no-store',
+        next: { revalidate: 0 }
     });
 
     const pet = await res.json();
@@ -54,7 +56,7 @@ const PetDetailsPage = async ({ params }) => {
                     <div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px]">
 
                         <Image
-                            src={pet?.imageUrl || "/placeholder.png"} // pet বা imageUrl না থাকলে একটি ডিফল্ট ইমেজ দেখাবে
+                            src={pet?.imageUrl || "/placeholder.png"} 
                             alt={pet?.petName || "Pet Image"}
                             fill
                             className="object-cover"

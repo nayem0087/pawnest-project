@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { Button, Card, Form, Input, Label, Separator, TextField, FieldError } from "@heroui/react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
@@ -12,28 +12,29 @@ import Link from "next/link";
 const SignUpPage = () => {
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const user = Object.fromEntries(formData.entries());
+   const onSubmit = async (e) => {
+    e.preventDefault();
 
-        const { data, error } = await authClient.signUp.email({
-            email: user.email,
-            imageUrl: user.imageUrl,
-            name: user.name,
-            password: user.password
-        });
+    const formData = new FormData(e.currentTarget);
+    const user = Object.fromEntries(formData.entries());
 
-        if (data) {
-            toast.success("Account created successfully!");
-            router.push('/');
-        }
-
-        if (error) {
-            toast.error(error.message || "Something went wrong!");
-        }
-    };
+    const {data, error} = await authClient.signUp.email({
+        email: user.email,
+        password: user.password,
+        name: user.name,
+        image: user.image,
+        confirmPassword: user.confirmPassword
+    })
+    
+    if(data) {
+        redirect('/')
+    }
+    if(error) {
+        alert('added failed')
+    }
+   }
 
     const handleGoogleSignIn = async () => {
         await authClient.signIn.social({
@@ -57,16 +58,11 @@ const SignUpPage = () => {
                     <Form onSubmit={onSubmit} className="flex w-full flex-col gap-4">
                         
                         {/* Username Input */}
-                        <TextField
-                            isRequired
-                            name="name"
-                            type="text"
-                            className="w-full"
-                        >
-                            <Label className="text-sm font-semibold text-slate-700 mb-1 ml-0.5">UserName</Label>
+                        <TextField isRequired name="name" type="text" className="w-full">
+                            <Label className="text-sm font-semibold text-slate-700 mb-1 ml-0.5">Name</Label>
                             <div className="w-full h-11 bg-slate-50 border border-slate-200 focus-within:border-slate-400 focus-within:bg-white transition-all duration-200 rounded-xl px-3.5 flex items-center">
                                 <Input 
-                                    placeholder="Enter your username" 
+                                    placeholder="Enter your full name" 
                                     className="w-full h-full bg-transparent outline-none text-sm text-slate-900 placeholder:text-slate-400"
                                 />
                             </div>
@@ -74,16 +70,11 @@ const SignUpPage = () => {
                         </TextField>
 
                         {/* Image URL Input */}
-                        <TextField
-                            isRequired
-                            name="imageUrl"
-                            type="url"
-                            className="w-full"
-                        >
-                            <Label className="text-sm font-semibold text-slate-700 mb-1 ml-0.5">Image URL</Label>
+                        <TextField isRequired name="imageUrl" type="url" className="w-full">
+                            <Label className="text-sm font-semibold text-slate-700 mb-1 ml-0.5">Photo URL</Label>
                             <div className="w-full h-11 bg-slate-50 border border-slate-200 focus-within:border-slate-400 focus-within:bg-white transition-all duration-200 rounded-xl px-3.5 flex items-center">
                                 <Input 
-                                    placeholder="Enter your image URL" 
+                                    placeholder="Enter your photo URL" 
                                     className="w-full h-full bg-transparent outline-none text-sm text-slate-900 placeholder:text-slate-400"
                                 />
                             </div>
@@ -116,19 +107,21 @@ const SignUpPage = () => {
                         {/* Password Input */}
                         <TextField
                             isRequired
-                            minLength={8}
                             name="password"
                             type={showPassword ? "text" : "password"}
                             className="w-full"
                             validate={(value) => {
-                                if (value.length < 8) {
-                                    return "Password must be at least 8 characters";
+                                // ⚠️ Requirement: At least 6 characters
+                                if (value.length < 6) {
+                                    return "Password must be at least 6 characters";
                                 }
+                                // ⚠️ Requirement: One uppercase letter
                                 if (!/[A-Z]/.test(value)) {
                                     return "Password must contain at least one uppercase letter";
                                 }
-                                if (!/[0-9]/.test(value)) {
-                                    return "Password must contain at least one number";
+                                // ⚠️ Requirement: One lowercase letter
+                                if (!/[a-z]/.test(value)) {
+                                    return "Password must contain at least one lowercase letter";
                                 }
                                 return null;
                             }}
@@ -150,9 +143,28 @@ const SignUpPage = () => {
                             <FieldError className="text-xs text-red-500 mt-1 ml-0.5" />
                         </TextField>
 
+                        {/* ⚠️ Added Confirm Password Input (As per Requirement) */}
+                        <TextField isRequired name="confirmPassword" type={showConfirmPassword ? "text" : "password"} className="w-full">
+                            <Label className="text-sm font-semibold text-slate-700 mb-1 ml-0.5">Confirm Password</Label>
+                            <div className="w-full h-11 bg-slate-50 border border-slate-200 focus-within:border-slate-400 focus-within:bg-white transition-all duration-200 rounded-xl px-3.5 flex items-center justify-between">
+                                <Input 
+                                    placeholder="Confirm your password" 
+                                    className="w-full h-full bg-transparent outline-none text-sm text-slate-900 placeholder:text-slate-400"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    className="text-slate-400 hover:text-slate-600 transition-colors ml-2 focus:outline-none"
+                                >
+                                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                </button>
+                            </div>
+                            <FieldError className="text-xs text-red-500 mt-1 ml-0.5" />
+                        </TextField>
+
                         {/* Form Note */}
                         <p className="text-xs text-slate-400 font-normal -mt-2 ml-0.5">
-                            Must be at least 8 characters with 1 uppercase and 1 number
+                            Must be at least 6 characters with 1 uppercase and 1 lowercase letter.
                         </p>
 
                         {/* Submit Button */}
@@ -165,7 +177,7 @@ const SignUpPage = () => {
                     </Form>
 
                     {/* Divider Separator */}
-                    <div className="flex justify-center items-center gap-3 pb-2">
+                    <div className="flex justify-center items-center gap-3 pb-2 mt-4">
                         <Separator className="flex-1 bg-slate-200" />
                         <span className="text-xs font-bold text-slate-400 uppercase tracking-wider whitespace-nowrap">
                             Or sign up with
@@ -177,7 +189,7 @@ const SignUpPage = () => {
                     <Button
                         onClick={handleGoogleSignIn}
                         variant="bordered"
-                        className="w-full h-11 text-sm font-semibold rounded-xl border-slate-200 hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 text-slate-700"
+                        className="w-full h-11 text-sm font-semibold rounded-xl border-slate-200 hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 text-slate-700 mb-4"
                     >
                         <FcGoogle className="text-lg" /> Sign in with Google
                     </Button>

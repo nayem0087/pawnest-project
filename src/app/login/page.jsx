@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { Button, Card, Form, Input, Label, Separator, TextField, FieldError } from "@heroui/react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
@@ -15,23 +15,26 @@ const LoginPage = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
+    
         const formData = new FormData(e.currentTarget);
         const user = Object.fromEntries(formData.entries());
-
-        const { data, error } = await authClient.signIn.email({
+    
+        const {data, error} = await authClient.signIn.email({
             email: user.email,
-            password: user.password
-        });
+            password: user.password,
+        })
 
-        if (data) {
-            toast.success("Login successfully!");
-            router.push('/');
+        console.log({data, error});
+        
+        if(data) {
+            alert('login success')
+            redirect('/')
         }
+        if(error) {
+            alert('added failed')
+        }
+       }
 
-        if (error) {
-            toast.error(error.message || "Something went wrong!");
-        }
-    };
 
     const handleGoogleSignIn = async () => {
         await authClient.signIn.social({

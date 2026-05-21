@@ -37,23 +37,23 @@ const AllPets = async ({ searchParams }) => {
     return (
         <div className='max-w-7xl mx-auto px-4 py-8'>
 
-            <section className="py-16 md:py-24 px-6 transition-colors duration-500 bg-white dark:bg-slate-950">
+            <section className="py-16 md:py-24 px-6 transition-colors duration-500 bg-white">
                 <div className="container mx-auto max-w-6xl">
                     
                     {/* Section Header */}
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4">
-                            All Pets Here
+                    <div className="text-center mt-6">
+                        <h2 className="text-3xl md:text-5xl font-bold text-black mb-1">
+                            All Pets 
                         </h2>
-                        <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                            {pets?.length || 0} pets are available
+                        <p className="text-gray-600 font-semibold max-w-2xl mx-auto">
+                            Available {pets?.length || 0} pets
                         </p>
                         <div className="w-20 h-1.5 bg-[#56B6C6] mx-auto mt-6 rounded-full"></div>
                     </div>
 
                     {/* Filter and Search Section */}
-                    <div className="my-6 md:my-12 container mx-auto bg-slate-100 dark:bg-slate-900 shadow-md md:shadow-lg p-4 sm:p-6 md:p-8 rounded-xl w-[95%] lg:w-full border border-transparent dark:border-slate-800 transition-colors duration-300">
-                        <h2 className="flex items-center gap-1.5 mb-6 text-slate-800 dark:text-slate-100">
+                    <div className="my-6 md:mb-6 container mx-auto bg-slate-100  p-4 sm:p-6 md:p-8 rounded-xl w-[95%] ">
+                        <h2 className="flex items-center gap-1 mb-6 text-slate-800">
                             <Search className="w-5 h-5" />
                             <span className="font-bold text-lg">Filter and search</span>
                         </h2> 

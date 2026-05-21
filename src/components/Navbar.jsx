@@ -69,7 +69,9 @@ export default function Navbar() {
                                 <Dropdown.Trigger className="cursor-pointer rounded-full">
                                     {/* <Avatar size="md" src={user?.image} name={user?.name?.charAt(0)} /> */}
                                     <Avatar>
-                                        <Avatar.Image src={user?.image} />
+                                        <Avatar.Image
+                                        referrerPolicy="no-referrer"
+                                         src={user?.image} />
                                         <Avatar.Fallback className="font-bold text-xl uppercase bg-slate-200 text-slate-800 flex items-center justify-center w-full h-full">
                                             {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
                                         </Avatar.Fallback>

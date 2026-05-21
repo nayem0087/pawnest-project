@@ -6,7 +6,7 @@ import { Button, Card, Form, Input, Label, Separator, TextField, FieldError } fr
 import { redirect, useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { Eye, EyeOff } from "lucide-react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import Link from "next/link";
 
 const LoginPage = () => {
@@ -26,12 +26,15 @@ const LoginPage = () => {
 
         console.log({data, error});
         
-        if(data) {
-            alert('login success')
-            redirect('/')
+        if (data) {
+            toast.success("Account login successfully!");
+
+            setTimeout(() => {
+                router.push("/");
+            }, 1500);
         }
-        if(error) {
-            alert('added failed')
+        if (error) {
+            toast.error(error.message || "Login failed!");
         }
        }
 

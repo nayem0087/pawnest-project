@@ -41,16 +41,18 @@ const AllPetsCard = ({ pet }) => {
                     {" "}
                     <LuMapPin className="text-green-500" /> <span>{location}</span>
                 </div>
-                    <p className="text-xl text-gray-500 font-semibold">$ {adoptionFee} adoption fee</p>
+                <p className="text-xl text-gray-500 font-semibold">$ {adoptionFee} adoption fee</p>
             </div>
-         
-                <p className="border-2 border-gray-400"></p>
-                <div className="flex justify-between px-8 py-4">
-                    <Link href={`/all-pets/${pet._id}`}>
-                        <Button variant="secondary" className={'text-green-500'}>View Details</Button>
-                    </Link>
+
+            <p className="border-2 border-gray-400"></p>
+            <div className="flex justify-between px-8 py-4">
+                <Link href={`/all-pets/${pet._id}`}>
+                    <Button variant="secondary" className={'text-green-500'}>View Details</Button>
+                </Link>
+                <Link href={`/all-pets/${pet._id}`}>
                     <Button variant="outline" className={'bg-green-500 text-white'}>Adoption Now</Button>
-                </div>
+                </Link>
+            </div>
         </div>
     );
 };

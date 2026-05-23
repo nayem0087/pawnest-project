@@ -35,7 +35,7 @@ const Featured = async () => {
                 ))}
             </div>
 
-            <div className="flex justify-center mb-20">
+            <div className="flex justify-center">
                 <Link href={'/all-pets'}>
                     <Button className="px-8 py-3 rounded-full font-semibold bg-green-500 flex items-center gap-2  hover:opacity-90 transition-all duration-300 shadow-lg">
                         View All Pets <span>→</span>

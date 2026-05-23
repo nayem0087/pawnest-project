@@ -5,6 +5,8 @@ import { AuthContext } from '@/providers/AuthProvider';
 import { Card, Button } from "@heroui/react";
 import { useDisclosure } from "@heroui/use-disclosure";
 import Link from 'next/link';
+import { AiTwotoneDelete } from 'react-icons/ai';
+import Image from 'next/image';
 
 export default function MyListingsPage() {
     const { user } = useContext(AuthContext);
@@ -13,15 +15,13 @@ export default function MyListingsPage() {
     const [isModalOpen, setIsModalOpen] = useState(false); // Delete Modal
     const [selectedPetId, setSelectedPetId] = useState(null);
 
-    // Request Modal State
+
     const [selectedPet, setSelectedPet] = useState(null);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-    // --- নতুন স্টেট: রিকোয়েস্ট ডাটা এবং লোডিং এর জন্য ---
     const [petRequests, setPetRequests] = useState([]);
     const [isFetchingRequests, setIsFetchingRequests] = useState(false);
 
-    // --- নতুন useEffect: selectedPet সেট হলেই রিকোয়েস্ট ফেচ করবে ---
     useEffect(() => {
         if (selectedPet?._id) {
             setIsFetchingRequests(true);
@@ -38,7 +38,6 @@ export default function MyListingsPage() {
         }
     }, [selectedPet]);
 
-    // ডেটা ফেচিং ফাংশন (পুরানো লজিক)
     const fetchMyListings = async () => {
         if (!user?.email) return;
         try {
@@ -65,13 +64,13 @@ export default function MyListingsPage() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ status }), // status হতে পারে 'approved' বা 'rejected'
+                body: JSON.stringify({ status }),
             });
 
             const data = await res.json();
 
             if (res.ok) {
-                // লোকাল স্টেট আপডেট করা যাতে UI সাথে সাথে রিফ্রেস হয়
+
                 setPetRequests((prevRequests) =>
                     prevRequests.map((req) =>
                         req._id === requestId ? { ...req, status: status } : req
@@ -87,7 +86,6 @@ export default function MyListingsPage() {
         }
     };
 
-    // ডিলিট ফাংশনালিটি (পুরানো লজিক)
     const handleConfirmDelete = async () => {
         if (!selectedPetId) return;
         try {
@@ -112,7 +110,6 @@ export default function MyListingsPage() {
         <div className="p-6 w-full">
             <h1 className="text-2xl font-bold mb-6">My <span className="text-pink-500">Listings</span></h1>
 
-            {/* স্ট্যাটাস কার্ডস */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <Card className="p-6 text-center border shadow-sm">
                     <h2 className="text-3xl font-bold text-pink-500">{loading ? '...' : stats.total}</h2>
@@ -128,39 +125,75 @@ export default function MyListingsPage() {
                 </Card>
             </div>
 
-            {/* পেট লিস্ট কার্ডস */}
             {loading ? (
                 <p className="text-center py-10">Loading your pet listings...</p>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {listings.map((pet) => (
-                        <Card key={pet._id} className="p-6 border shadow-sm flex flex-row items-center gap-6">
-                            <img src={pet.imageUrl} className="w-24 h-24 rounded-lg object-cover" alt="pet" />
-                            <div className="flex-grow">
-                                <div className="flex justify-between items-center mb-4">
-                                    <h3 className="text-lg font-bold">{pet.petName}</h3>
-                                    <span className="text-rose-500 font-bold">${pet.adoptionFee}</span>
-                                </div>
-                                <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                                    <Link href={`/all-pets/${pet._id}`} className="font-medium text-gray-700">👁️ View</Link>
-                                    <Link href={`/dashboard/edit-pet/${pet._id}`} className="font-medium text-gray-700">📝 Edit</Link>
-                                    <button onClick={() => { setSelectedPet(pet); onOpen(); }} className="text-left font-medium text-blue-600">👥 Requests</button>
-                                    <button onClick={() => { setSelectedPetId(pet._id); setIsModalOpen(true); }} className="text-left font-medium text-red-500">🗑️ Delete</button>
-                                </div>
-                            </div>
-                        </Card>
-                    ))}
+                    {listings.map((pet) => {
+                        console.log('card pet', pet);
+                        return (
+                            <Card key={pet._id} className="max-w-[300] border shadow-sm overflow-hidden p-0">
+                                <div className="relative w-full h-40">
+                                    <Image
+                                        src={pet.imageUrl}
+                                        alt={pet.petName}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                    </div>
+                                    <div className="px-4">
+                                        <div className="flex justify-between items-center mb-4">
+                                            <h3 className="text-lg font-bold">{pet.petName}</h3>
+                                            <span className="text-green-500 font-bold">${pet.adoptionFee}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center mb-4">
+                                            <h3 className="text-sm text-gray-500">{pet.breed}</h3>
+                                            <span className="text-green-500 font-bold">${pet.status}</span>
+                                        </div>
+                                        <div className="flex flex-col gap-4 text-sm">
+                                            <div className='flex justify-between'>
+                                                <Link href={`/all-pets/${pet._id}`} className="font-medium text-gray-700">
+                                                    <Button size='sm' variant='outline' className={''}>👁️ View</Button>
+                                                </Link>
+                                                <Link href={`/dashboard/edit-pet/${pet._id}`} className="font-medium text-gray-700">
+                                                    <Button size='sm' variant='outline' className={''}>📝 Edit</Button>
+                                                </Link>
+                                            </div>
+                                            <div className='flex justify-between gap-2 pb-6'>
+                                                <Button
+                                                    size='sm'
+                                                    variant='bordered'
+                                                    className='text-green-500 border border-green-500'
+                                                    onClick={() => { setSelectedPet(pet); onOpen(); }}
+                                                >
+                                                    👥 Requests
+                                                </Button>
+                                                <Button
+                                                    size='sm'
+                                                    variant='bordered'
+                                                    className='text-red-500 border border-red-500'
+                                                    onClick={() => { setSelectedPetId(pet._id); setIsModalOpen(true); }}
+                                                >
+                                                    <AiTwotoneDelete /> Delete
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </Card>
+                        );
+                    })}
                 </div>
             )}
 
             {/* Delete Confirmation Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-white p-8 rounded-2xl w-80">
-                        <h3 className="font-bold mb-4">Are you sure?</h3>
+                    <div className="bg-white p-10 rounded-2xl w-100">
+                        <h3 className="font-bold mb-1">Are you sure?</h3>
+                        <p className='text-gray-500 mb-4'>Are you sure you want to permanently delete this pet in listing? This cannot be undone.</p>
                         <div className="flex gap-3">
-                            <Button onClick={() => setIsModalOpen(false)}>No</Button>
-                            <Button onClick={handleConfirmDelete} className="bg-red-500 text-white">Yes, Delete</Button>
+                            <Button variant='outline' onClick={() => setIsModalOpen(false)} className={'border-2 border-green-500 text-green-500'}>Keep Listing</Button>
+                            <Button variant='outline' onClick={handleConfirmDelete} className="border-2 border-red-500 text-red-500">Delete Permanently</Button>
                         </div>
                     </div>
                 </div>
@@ -179,9 +212,7 @@ export default function MyListingsPage() {
                         ) : petRequests.length > 0 ? (
                             <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
                                 {petRequests.map(req => {
-                                    // রিকোয়েস্টের পুরো ডাটা কনসোলে দেখার জন্য
                                     console.log("Single request data:", req);
-
                                     return (
                                         <div key={req._id} className="p-4 border border-gray-200 rounded-xl bg-gray-50">
                                             <div>
@@ -208,7 +239,7 @@ export default function MyListingsPage() {
                                                         }`}>
                                                         {req.status?.toUpperCase()}
                                                     </span>
-                                                </div> 
+                                                </div>
                                                 <div>
                                                     <p className='font-semibold text-sm text-gray-500'>PROPOSED PICKUP DATE</p>
                                                     <h5 className='font-semibold'>{req.requestDate}</h5>

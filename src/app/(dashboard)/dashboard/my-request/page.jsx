@@ -368,7 +368,7 @@ export default function MyRequestsPage() {
                             {/* No, Keep it বাটন */}
                             <button 
                                 onClick={() => { setIsModalOpen(false); setSelectedRequestId(null); }}
-                                className="px-4 py-2 text-sm bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-xl transition-all"
+                                className="px-4 py-2 text-sm bg-gray-100 text-green-500 border border-green-500 hover:bg-gray-200 rounded-xl transition-all"
                             >
                                 No, Keep it
                             </button>
@@ -376,7 +376,7 @@ export default function MyRequestsPage() {
                             {/* Yes, Cancel বাটন */}
                             <button 
                                 onClick={handleConfirmDelete}
-                                className="px-5 py-2 text-sm bg-green-500 text-white hover:bg-green-600 rounded-xl shadow-md shadow-green-500/20 transition-all"
+                                className="px-5 py-2 text-sm bg-gray-100 text-red-500 hover:bg-gray-200 border border-red-500  rounded-xl shadow-md shadow-green-500/20 transition-all"
                             >
                                 Yes, Cancel
                             </button>

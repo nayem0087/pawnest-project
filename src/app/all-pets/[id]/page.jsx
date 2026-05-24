@@ -15,17 +15,18 @@ import { FaLongArrowAltLeft } from 'react-icons/fa';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@heroui/react';
-import toast, { Toaster } from 'react-hot-toast'; 
+import toast, { Toaster } from 'react-hot-toast';
+import { authClient } from '@/lib/auth-client';
 
 export default function PetDetailsPage({ params: paramsPromise }) {
     const router = useRouter();
-    
+
     // States
     const [params, setParams] = useState(null);
     const [pet, setPet] = useState(null);
     const [loadingPet, setLoadingPet] = useState(true);
     const [submitting, setSubmitting] = useState(false);
-    
+
     // Form States
     const [pickupDate, setPickupDate] = useState('');
     const [message, setMessage] = useState('');
@@ -45,10 +46,17 @@ export default function PetDetailsPage({ params: paramsPromise }) {
         if (!params?.id) return;
 
         const fetchPetDetails = async () => {
+
+            const { data: tokenData } = await authClient.token();
+            const token = tokenData?.token;
+            // console.log('name', token);
+
             try {
                 const res = await fetch(`http://localhost:5000/pet/${params.id}`, {
-                  
-                    cache: 'no-store'
+                    cache: 'no-store',
+                    headers: {
+                        authorization: `Bearer ${token}`
+                    }
                 });
                 if (res.ok) {
                     const data = await res.json();
@@ -105,10 +113,10 @@ export default function PetDetailsPage({ params: paramsPromise }) {
                 toast.error(result.message || "You have already submitted a request for this pet!");
             } else if (response.ok) {
                 toast.success("Adoption request submitted successfully!");
-                
+
                 setTimeout(() => {
                     router.push('/dashboard/my-request');
-                }, 1500); 
+                }, 1500);
             } else {
                 toast.error("Something went wrong. Please try again.");
             }
@@ -154,7 +162,7 @@ export default function PetDetailsPage({ params: paramsPromise }) {
                 <div className="lg:col-span-2 bg-white border rounded-2xl sm:rounded-3xl shadow-sm overflow-hidden">
                     <div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px]">
                         <Image
-                            src={pet?.imageUrl || "/placeholder.png"} 
+                            src={pet?.imageUrl || "/placeholder.png"}
                             alt={pet?.petName || "Pet Image"}
                             fill
                             className="object-cover"

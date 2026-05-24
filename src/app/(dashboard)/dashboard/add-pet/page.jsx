@@ -6,6 +6,7 @@ import { AuthContext } from '@/providers/AuthProvider';
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { useRouter } from 'next/navigation'; 
+import { authClient } from "@/lib/auth-client";
 
 
 
@@ -33,7 +34,8 @@ const AddPet = () => {
     try {
       const res = await fetch('http://localhost:5000/pet', {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
+        headers: { 'content-type': 'application/json'
+         },
         body: JSON.stringify(petData)
       });
       

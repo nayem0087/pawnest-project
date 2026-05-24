@@ -47,6 +47,7 @@ export default function PetDetailsPage({ params: paramsPromise }) {
         const fetchPetDetails = async () => {
             try {
                 const res = await fetch(`http://localhost:5000/pet/${params.id}`, {
+                  
                     cache: 'no-store'
                 });
                 if (res.ok) {

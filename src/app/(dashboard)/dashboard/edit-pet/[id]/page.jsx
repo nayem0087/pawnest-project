@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 export default function EditPetPage({ params }) {
     const { id } = use(params);
@@ -17,7 +18,7 @@ export default function EditPetPage({ params }) {
 
     const handleChange = (e) => setPet({ ...pet, [e.target.name]: e.target.value });
 
-    // handleSubmit ফাংশনটি এখানে যোগ করা হলো
+   
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -28,14 +29,14 @@ export default function EditPetPage({ params }) {
             });
 
             if (res.ok) {
-                alert("Pet information updated successfully!");
+                toast.success("Pet information updated successfully!");
                 router.push('/dashboard/my-listing');
             } else {
-                alert("Failed to update.");
+                toast.error("Failed to update.");
             }
         } catch (error) {
             console.error("Error updating pet:", error);
-            alert("Something went wrong!");
+            toast.error("Something went wrong!");
         }
     };
 
@@ -59,7 +60,6 @@ export default function EditPetPage({ params }) {
                     <h2 className="font-bold">Pet Information</h2>
                 </div>
 
-                {/* onSubmit যোগ করা হয়েছে */}
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>

@@ -39,12 +39,21 @@ const LoginPage = () => {
        }
 
 
-    const handleGoogleSignIn = async () => {
+const handleGoogleSignIn = async () => {
+    try {
+        toast.loading("Redirecting to Google..."); 
+        
         await authClient.signIn.social({
             provider: 'google',
             callbackURL: '/'
         });
-    };
+        
+    } catch (error) {
+        console.error("Google login failed:", error);
+        toast.dismiss(); 
+        toast.error("Google login failed. Please try again."); 
+    }
+};
 
     return (
         <div className="min-h-[85vh] flex items-center justify-center bg-slate-50 p-4 font-sans text-black">

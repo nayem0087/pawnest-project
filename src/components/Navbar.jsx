@@ -6,6 +6,8 @@ import { MdOutlinePets } from "react-icons/md";
 import { ArrowRightFromSquare } from "@gravity-ui/icons";
 import { authClient } from "@/lib/auth-client";
 import { FaArrowDownLong } from "react-icons/fa6";
+import { useRouter } from 'next/navigation';
+import toast from "react-hot-toast";
 
 export default function Navbar() {
 
@@ -20,9 +22,20 @@ export default function Navbar() {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+    const router = useRouter();
+
     const handleSignOut = async () => {
-        await authClient.signOut();
-    }
+        try {
+            await authClient.signOut();
+            toast.success("Logged out successfully!");
+
+            router.push('/login');
+            router.refresh();
+        } catch (error) {
+            console.error("Logout failed:", error);
+            toast.error("Logout failed. Please try again.");
+        }
+    };
 
     return (
         <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
@@ -70,8 +83,8 @@ export default function Navbar() {
                                     {/* <Avatar size="md" src={user?.image} name={user?.name?.charAt(0)} /> */}
                                     <Avatar>
                                         <Avatar.Image
-                                        referrerPolicy="no-referrer"
-                                         src={user?.image} />
+                                            referrerPolicy="no-referrer"
+                                            src={user?.image} />
                                         <Avatar.Fallback className="font-bold text-xl uppercase bg-slate-200 text-slate-800 flex items-center justify-center w-full h-full">
                                             {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
                                         </Avatar.Fallback>

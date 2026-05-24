@@ -14,10 +14,9 @@ export default function DashboardLayout({ children }) {
     ];
 
     return (
-        // ১. মেইন কন্টেইনারের ব্যাকগ্রাউন্ড bg-gray-100 করা হয়েছে এবং min-h-screen এর বদলে h-full নিশ্চিত করা হয়েছে
+        
         <div className="flex h-full min-h-screen bg-gray-100 text-gray-800 font-sans">
             
-            {/* Sidebar - ব্যাকগ্রাউন্ড bg-gray-50 এবং এটার হাইট মেইন কন্টেন্টের সাথে অটো অ্যাডজাস্ট হবে */}
             <aside className="w-64 border-r bg-gray-50 border-gray-200 p-6 flex flex-col justify-between hidden md:flex sticky top-0 h-screen">
                 <div>
                     <p className="text-sm font-bold text-green-600 tracking-wider uppercase mb-6">Menu</p>
@@ -49,13 +48,10 @@ export default function DashboardLayout({ children }) {
                 </button>
             </aside>
 
-            {/* Main Content Area - এটার ব্যাকগ্রাউন্ডও bg-gray-100 এবং ফুটারের সাথে গ্যাপ আটকাতে h-full ও pb করা হয়েছে */}
             <main className="flex-1 bg-gray-100 min-h-screen flex flex-col justify-between">
                 <div className="w-full">
                     {children}
                 </div>
-                
-                {/* যদি আপনার ফুটারটি এই লেআউটের চিলড্রেন পেজগুলোর নিচে অটো রেন্ডার হয়, তবে সেটির ব্যাকগ্রাউন্ডও bg-gray-100 পাবে এবং কোনো গ্যাপ থাকবে না */}
             </main>
         </div>
     );
